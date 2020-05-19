@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TinyCrmDb.Core\TinyCrmDb.Core.csproj" />
+  </ItemGroup>
+
 </Project>

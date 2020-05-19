@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using TinyCrmDb.Core.Data;
+using TinyCrmDb.Core.Services;
+using TinyCrmDb.Core.Services.Interfaces;
 using TinyCrmDb.Web.Models;
 
-namespace TinyCrmDb.Web.Controllers
+namespace TinyCrm.Web.Controllers
 {
     public class HomeController : Controller
     {
@@ -25,7 +25,18 @@ namespace TinyCrmDb.Web.Controllers
 
         public IActionResult Privacy()
         {
-            return View();
+            using (var context = new TinyCrmDbContext())
+            {
+                var customerService = new CustomerService(context);
+
+                var customer = customerService.SearchCustomers(
+                    new SearchCustomerOptions()
+                    {
+                        CustomerId = 1
+                    }).SingleOrDefault();
+
+                return Json(customer);
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
